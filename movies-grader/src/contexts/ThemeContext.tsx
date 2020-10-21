@@ -25,7 +25,6 @@ export const ThemeProvider = (props: Props) => {
     setTheme((prev) =>
       prev === themeMode.dark ? themeMode.light : themeMode.dark
     );
-    console.log(theme);
   };
   return (
     <ThemeContext.Provider value={{ theme, changeTheme }}>
