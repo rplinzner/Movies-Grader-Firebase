@@ -1,15 +1,17 @@
-import React from 'react'
+import React from "react";
+import { Link } from "react-router-dom";
+import { routes } from "../../constants";
 
-interface Props {
-    
-}
+interface Props {}
 
 const NotFound = (props: Props) => {
-    return (
-        <div>
-            Not Found!
-        </div>
-    )
-}
+  return (
+    <div>
+      <p style={{ textAlign: "center" }}>
+        <Link to={routes.grade}>Go to Home </Link>
+      </p>
+    </div>
+  );
+};
 
-export default NotFound
+export default NotFound;
