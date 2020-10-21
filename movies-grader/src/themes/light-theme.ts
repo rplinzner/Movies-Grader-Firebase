@@ -1,7 +1,14 @@
+import {
+  createMuiTheme,
+  responsiveFontSizes,
+  ThemeOptions,
+} from "@material-ui/core";
 
-export default {
-  direction: 'ltr',
-  palette: {
-    type: 'light',
-  },
-};
+export default responsiveFontSizes(
+  createMuiTheme({
+    direction: "ltr",
+    palette: {
+      type: "light",
+    },
+  } as ThemeOptions)
+);
