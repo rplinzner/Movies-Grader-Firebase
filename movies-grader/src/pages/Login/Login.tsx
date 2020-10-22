@@ -66,6 +66,7 @@ const Login = () => {
       <Paper className={styles.paper}>
         <Grid container spacing={4} className={styles.loginMethodContainer}>
           <Grid item md={4} sm={6} xs={12} className="text-center">
+            {/* TODO: Dodać klawisze zgodne z providerem */}
             <Button onClick={signInWithGoogle}>LOGIN with Google</Button>
           </Grid>
           <Grid item md={4} sm={6} xs={12} className="text-center">
