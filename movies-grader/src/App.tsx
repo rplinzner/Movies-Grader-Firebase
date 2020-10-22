@@ -13,6 +13,7 @@ import { firebaseConfig } from "./constants";
 
 firebase.initializeApp(firebaseConfig);
 export const auth = firebase.auth();
+auth.languageCode = "pl_PL";
 
 function App() {
   return (
