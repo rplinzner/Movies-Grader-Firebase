@@ -5,7 +5,19 @@ export default makeStyles((theme: Theme) =>
     root: {
       flexGrow: 1,
     },
-    title: {
+    spacer: {
+      [theme.breakpoints.down("xs")]: {
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+      },
+      marginLeft: theme.spacing(2),
+      marginRight: theme.spacing(2),
+    },
+    image: {
+      borderRadius: 100,
+      marginRight: theme.spacing(2)
+    },
+    loginInfo: {
       flexGrow: 1,
     },
   })

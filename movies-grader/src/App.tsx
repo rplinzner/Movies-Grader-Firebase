@@ -7,6 +7,13 @@ import RoutedContent from "./pages";
 import { AppBar } from "./layout";
 import { themeMode, ThemeProvider } from "./contexts";
 
+import firebase from "firebase/app";
+import "firebase/auth";
+import { firebaseConfig } from "./constants";
+
+firebase.initializeApp(firebaseConfig);
+export const auth = firebase.auth();
+
 function App() {
   return (
     <ThemeProvider>
