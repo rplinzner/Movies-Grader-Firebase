@@ -12,7 +12,7 @@ export default makeStyles((theme: Theme) =>
     },
     image: {
       [theme.breakpoints.down("sm")]: {
-        maxHeight: 100,
+        maxHeight: 150,
       },
       [theme.breakpoints.up("sm")]: {
         maxHeight: 300,
@@ -26,6 +26,7 @@ export default makeStyles((theme: Theme) =>
     loginMethodContainer: {
       display: "flex",
       justifyItems: "center",
+      width: "100%",
     },
   })
 );

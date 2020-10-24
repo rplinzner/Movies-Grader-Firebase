@@ -43,28 +43,35 @@ const Login = () => {
 
   return (
     <Container className={styles.root} maxWidth="md">
+      <Grid container>
+        <Grid item sm={12} md={6} className="w-100">
+          <img className={styles.image} src={popcorn} alt="popcorn" />
+        </Grid>
+        <Grid item sm={12} md={6}>
+          <Paper className={styles.paper}>
+            <Typography variant="h5" className="">
+              Witaj! W ramach tej aplikacji poprosimy Cię o ocenę paru filmów.
+              Najpierw jednak chcielibyśmy wiedzieć, że jesteś człowiekiem
+              <span role="img" aria-label="face-with-sweat">
+                😅
+              </span>
+              .
+              <br />
+              <br />
+              Wybierz jedną z poniższych opcji logowania.
+            </Typography>
+            <Typography variant="caption">
+              Psst. Nie będziemy zbierać żadnych Twoich osobistych informacji
+              <span role="img" aria-label="face-wink">
+                😉
+              </span>
+            </Typography>
+          </Paper>
+        </Grid>
+      </Grid>
+
       <Paper className={styles.paper}>
-        <img className={styles.image} src={popcorn} alt="popcorn" />
-        <Typography variant="h5" className="text-justify">
-          Witaj! W ramach tej aplikacji poprosimy Cię o ocenę paru filmów.
-          Najpierw jednak chcielibyśmy wiedzieć, że jesteś człowiekiem
-          <span role="img" aria-label="face-with-sweat">
-            😅
-          </span>
-          .
-          <br />
-          <br />
-          Wybierz jedną z poniższych opcji logowania.
-        </Typography>
-        <Typography variant="caption">
-          Psst. Nie będziemy zbierać żadnych Twoich osobistych informacji
-          <span role="img" aria-label="face-with-sweat">
-            😉
-          </span>
-        </Typography>
-      </Paper>
-      <Paper className={styles.paper}>
-        <Grid container spacing={4} className={styles.loginMethodContainer}>
+        <Grid container spacing={2} className={styles.loginMethodContainer}>
           <Grid item md={4} sm={6} xs={12} className="text-center">
             {/* TODO: Dodać klawisze zgodne z providerem */}
             <Button onClick={signInWithGoogle}>LOGIN with Google</Button>
@@ -77,6 +84,7 @@ const Login = () => {
           </Grid>
         </Grid>
       </Paper>
+
       <Snackbar open={open} autoHideDuration={10000} onClose={handleErrClose}>
         <Alert onClose={handleErrClose} severity="error">
           {errMsg}
