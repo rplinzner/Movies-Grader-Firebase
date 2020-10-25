@@ -22,23 +22,26 @@ const Login = () => {
 
   const handleErrClose = () => setOpen(false);
 
-  const signInWithGoogle = () => {
+  const signInWithGoogle = async () => {
     const provider = new firebase.auth.GoogleAuthProvider();
-
-    auth.signInWithPopup(provider).catch((err) => {
-      const { code, message } = err as firebase.auth.AuthError;
+    try {
+      await auth.signInWithPopup(provider);
+    } catch (error) {
+      const { code, message } = error as firebase.auth.AuthError;
       setErrMsg(resolveErrCode(code, message));
       setOpen(true);
-    });
+    }
   };
 
-  const signInWithFacebook = () => {
+  const signInWithFacebook = async () => {
     const provider = new firebase.auth.FacebookAuthProvider();
-    auth.signInWithPopup(provider).catch((err) => {
-      const { code, message } = err as firebase.auth.AuthError;
+    try {
+      await auth.signInWithPopup(provider);
+    } catch (error) {
+      const { code, message } = error as firebase.auth.AuthError;
       setErrMsg(resolveErrCode(code, message));
       setOpen(true);
-    });
+    }
   };
 
   return (
