@@ -1,0 +1,17 @@
+(C) movies ->
+    (D) movie_ID
+        (F) name (text)
+        (F) TMDB_id (int)
+
+(C) users -> 
+    (D) user_UID -> 
+        (F) last_movie_id (int)
+        (F) dark_theme (bool) 
+        (C) rated_movies ->
+            (D) movie_id ->
+                (F) rate (int)
+                (F) have_seen (bool)
+
+(C) - collection
+(D) - document
+(F) - field
