@@ -1,5 +1,5 @@
 import { Container, Grid, Paper, Typography } from "@material-ui/core";
-import React, { useEffect } from "react";
+import React from "react";
 import useStyles from "./styles";
 import popcorn from "../../assets/img/popcorn.png";
 import firebase from "firebase";
