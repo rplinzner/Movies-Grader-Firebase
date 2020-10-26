@@ -1,5 +1,7 @@
 import React from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
 import { Redirect, Route, RouteProps } from "react-router-dom";
+import { auth } from "../../App";
 import { routes } from "../../constants";
 
 interface Props extends RouteProps {
@@ -9,8 +11,8 @@ interface Props extends RouteProps {
 const PrivateRoute = (props: Props) => {
   const { authenticationPath } = props;
 
-  // TODO: Add selecting user login state
-  const isAuthenticated = false;
+  const [user] = useAuthState(auth);
+  const isAuthenticated = !!user;
 
   let redirectPath = "";
 

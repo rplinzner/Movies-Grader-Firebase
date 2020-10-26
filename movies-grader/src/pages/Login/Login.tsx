@@ -1,15 +1,22 @@
 import { Container, Grid, Paper, Typography } from "@material-ui/core";
-import React from "react";
+import React, { useEffect } from "react";
 import useStyles from "./styles";
 import popcorn from "../../assets/img/popcorn.png";
 import firebase from "firebase";
 import LoginWithButton from "./modules/LoginWithButton";
+import { useAuthState } from "react-firebase-hooks/auth";
+import { auth } from "../../App";
+import { Redirect } from "react-router";
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
 const Login = () => {
   const styles = useStyles();
+
+  const [user] = useAuthState(auth);
+
+  if (!!user) return <Redirect to="/" />;
 
   return (
     <Container className={styles.root} maxWidth="md">
