@@ -25,9 +25,9 @@ export const fetchMovieInfo = async (baseUrl: string, movieId: number) => {
 
   return {
     poster: baseUrl + "w500" + poster_path,
-    directors: credits.crew.filter(
+    directors: credits.crew?.filter(
       (e) => e.department === Department.Directing
-    ),
+    ) || [],
     overview,
     title,
     releaseDate: new Date(release_date).getFullYear(),
