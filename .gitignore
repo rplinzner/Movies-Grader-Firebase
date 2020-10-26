@@ -1,3 +1,4 @@
 
 movies-grader/src/constants/firebase-config.ts
 movies-grader/debug.log
+movies-grader/src/constants/tmdbApiKey.ts
