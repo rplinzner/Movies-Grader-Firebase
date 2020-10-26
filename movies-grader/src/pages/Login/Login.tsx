@@ -11,28 +11,6 @@ const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const Login = () => {
   const styles = useStyles();
 
-  // const signInWithGoogle = async () => {
-  //   const provider = new firebase.auth.GoogleAuthProvider();
-  //   try {
-  //     await auth.signInWithPopup(provider);
-  //   } catch (error) {
-  //     const { code, message } = error as firebase.auth.AuthError;
-  //     setErrMsg(resolveErrCode(code, message));
-  //     setOpen(true);
-  //   }
-  // };
-
-  // const signInWithFacebook = async () => {
-  //   const provider = new firebase.auth.FacebookAuthProvider();
-  //   try {
-  //     await auth.signInWithPopup(provider);
-  //   } catch (error) {
-  //     const { code, message } = error as firebase.auth.AuthError;
-  //     setErrMsg(resolveErrCode(code, message));
-  //     setOpen(true);
-  //   }
-  // };
-
   return (
     <Container className={styles.root} maxWidth="md">
       <Grid container>
@@ -72,10 +50,8 @@ const Login = () => {
             >
               Zaloguj z Google
             </LoginWithButton>
-            {/* <Button onClick={signInWithGoogle}>LOGIN with Google</Button> */}
           </Grid>
           <Grid item md={4} sm={6} xs={12} className="text-center">
-            {/* <Button onClick={signInWithFacebook}>LOGIN with Facebook</Button> */}
             <LoginWithButton
               authProvider={facebookProvider}
               iconClassName="fa-facebook"
