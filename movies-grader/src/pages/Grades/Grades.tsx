@@ -7,7 +7,7 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import useStyles from "./styles";
 import classNames from "classnames";
 import Rating from "react-rating";
@@ -33,6 +33,8 @@ const Grades = () => {
 
   const [movieId, setMovieId] = useState(100);
 
+  const topDivRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
     async function inner() {
       if (!baseUrl) return;
@@ -48,7 +50,8 @@ const Grades = () => {
       setOverview(desc);
       setDirectors(dirs.map((e) => e.name));
       setTitle(`${movieTitle} (${releaseDate})`);
-
+      if (topDivRef.current)
+        topDivRef.current.scrollIntoView({ behavior: "smooth" });
       setTimeout(() => {
         setFadeIn(true);
       }, 200);
@@ -62,7 +65,7 @@ const Grades = () => {
       {title ? (
         <Fade in={fadeIn}>
           <Container maxWidth="md" className={classes.root}>
-            <div className={classes.posterContainer}>
+            <div ref={topDivRef} className={classes.posterContainer}>
               <img
                 className={classNames(classes.poster, "shadow")}
                 src={posterUrl}
