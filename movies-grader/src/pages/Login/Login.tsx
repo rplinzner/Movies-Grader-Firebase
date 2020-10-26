@@ -1,4 +1,11 @@
-import { Container, Grid, Paper, Button, Typography } from "@material-ui/core";
+import {
+  Container,
+  Grid,
+  Paper,
+  Button,
+  Typography,
+  Icon,
+} from "@material-ui/core";
 import React, { useState } from "react";
 import useStyles from "./styles";
 import popcorn from "../../assets/img/popcorn.png";
@@ -71,7 +78,7 @@ const Login = () => {
 
       <Paper className={styles.paper}>
         <Grid container spacing={2} className={styles.loginMethodContainer}>
-          <Grid item md={4} sm={6} xs={12} className="text-center">
+          <Grid item md={4} sm={12} xs={12} className="text-center">
             <LoginWithButton
               authProvider={googleProvider}
               iconClassName="fa-google"
@@ -79,7 +86,7 @@ const Login = () => {
               Zaloguj z Google
             </LoginWithButton>
           </Grid>
-          <Grid item md={4} sm={6} xs={12} className="text-center">
+          <Grid item md={4} sm={12} xs={12} className="text-center">
             <LoginWithButton
               authProvider={facebookProvider}
               iconClassName="fa-facebook"
@@ -87,9 +94,10 @@ const Login = () => {
               Zaloguj z Facebook
             </LoginWithButton>
           </Grid>
-          <Grid item md={4} sm={6} xs={12} className="text-center">
+          <Grid item md={4} sm={12} xs={12} className="text-center">
             <Button onClick={openLoginModal} variant="contained">
-              Zaloguj
+              <Icon className={`fa fa-fw fa-envelope mr-2`} />
+              Zaloguj z Email
             </Button>
             <RegistrationModal
               open={registerModalOpen}
