@@ -1,48 +1,37 @@
-import {
-  Button,
-  Container,
-  Grid,
-  Paper,
-  Snackbar,
-  Typography,
-} from "@material-ui/core";
-import React, { useState } from "react";
+import { Container, Grid, Paper, Typography } from "@material-ui/core";
+import React from "react";
 import useStyles from "./styles";
 import popcorn from "../../assets/img/popcorn.png";
 import firebase from "firebase";
-import { auth } from "../../App";
-import resolveErrCode from "../../utils/firebase-error-message-resolver";
+import LoginWithButton from "./modules/LoginWithButton";
 
-import { Alert } from "@material-ui/lab";
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+const facebookProvider = new firebase.auth.FacebookAuthProvider();
 
 const Login = () => {
   const styles = useStyles();
-  const [open, setOpen] = useState(false);
-  const [errMsg, setErrMsg] = useState("");
 
-  const handleErrClose = () => setOpen(false);
+  // const signInWithGoogle = async () => {
+  //   const provider = new firebase.auth.GoogleAuthProvider();
+  //   try {
+  //     await auth.signInWithPopup(provider);
+  //   } catch (error) {
+  //     const { code, message } = error as firebase.auth.AuthError;
+  //     setErrMsg(resolveErrCode(code, message));
+  //     setOpen(true);
+  //   }
+  // };
 
-  const signInWithGoogle = async () => {
-    const provider = new firebase.auth.GoogleAuthProvider();
-    try {
-      await auth.signInWithPopup(provider);
-    } catch (error) {
-      const { code, message } = error as firebase.auth.AuthError;
-      setErrMsg(resolveErrCode(code, message));
-      setOpen(true);
-    }
-  };
-
-  const signInWithFacebook = async () => {
-    const provider = new firebase.auth.FacebookAuthProvider();
-    try {
-      await auth.signInWithPopup(provider);
-    } catch (error) {
-      const { code, message } = error as firebase.auth.AuthError;
-      setErrMsg(resolveErrCode(code, message));
-      setOpen(true);
-    }
-  };
+  // const signInWithFacebook = async () => {
+  //   const provider = new firebase.auth.FacebookAuthProvider();
+  //   try {
+  //     await auth.signInWithPopup(provider);
+  //   } catch (error) {
+  //     const { code, message } = error as firebase.auth.AuthError;
+  //     setErrMsg(resolveErrCode(code, message));
+  //     setOpen(true);
+  //   }
+  // };
 
   return (
     <Container className={styles.root} maxWidth="md">
@@ -77,22 +66,28 @@ const Login = () => {
         <Grid container spacing={2} className={styles.loginMethodContainer}>
           <Grid item md={4} sm={6} xs={12} className="text-center">
             {/* TODO: Dodać klawisze zgodne z providerem */}
-            <Button onClick={signInWithGoogle}>LOGIN with Google</Button>
+            <LoginWithButton
+              authProvider={googleProvider}
+              iconClassName="fa-google"
+            >
+              Zaloguj z Google
+            </LoginWithButton>
+            {/* <Button onClick={signInWithGoogle}>LOGIN with Google</Button> */}
           </Grid>
           <Grid item md={4} sm={6} xs={12} className="text-center">
-            <Button onClick={signInWithFacebook}>LOGIN with Facebook</Button>
+            {/* <Button onClick={signInWithFacebook}>LOGIN with Facebook</Button> */}
+            <LoginWithButton
+              authProvider={facebookProvider}
+              iconClassName="fa-facebook"
+            >
+              Zaloguj z Facebook
+            </LoginWithButton>
           </Grid>
           <Grid item md={4} sm={6} xs={12} className="text-center">
             LOGIN W EMAIL
           </Grid>
         </Grid>
       </Paper>
-
-      <Snackbar open={open} autoHideDuration={10000} onClose={handleErrClose}>
-        <Alert onClose={handleErrClose} severity="error">
-          {errMsg}
-        </Alert>
-      </Snackbar>
     </Container>
   );
 };
