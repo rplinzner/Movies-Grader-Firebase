@@ -10,21 +10,25 @@ try {
   const data = fs.readFileSync("movie.csv", "UTF-8");
   const lines = data.split("\r\n");
 
+  const jsonData = [];
   lines.forEach((line) => {
     const words = line.split(";");
-    db.collection("movies")
-      .doc(words[0])
-      .set({
-        tmdb_id: words[1],
-        name: words[2],
-      })
-      .then(() => {
-        console.log("Document written");
-      })
-      .catch((error) => {
-        console.error("Error adding document: ", error);
-      });
+    jsonData.push({
+      id: words[0],
+      tmdb_id: words[1],
+      name: words[2],
+    });
   });
+
+  db.collection("movies")
+    .doc("movies_data")
+    .set({ data: JSON.stringify(jsonData) })
+    .then(() => {
+      console.log("Document written");
+    })
+    .catch((error) => {
+      console.error("Error adding document: ", error);
+    });
 } catch (err) {
   console.error(err);
 }
