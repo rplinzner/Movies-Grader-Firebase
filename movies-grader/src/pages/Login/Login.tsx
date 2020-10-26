@@ -1,5 +1,5 @@
-import { Container, Grid, Paper, Typography } from "@material-ui/core";
-import React from "react";
+import { Container, Grid, Paper, Button, Typography } from "@material-ui/core";
+import React, { useState } from "react";
 import useStyles from "./styles";
 import popcorn from "../../assets/img/popcorn.png";
 import firebase from "firebase";
@@ -7,6 +7,8 @@ import LoginWithButton from "./modules/LoginWithButton";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../App";
 import { Redirect } from "react-router";
+import RegistrationModal from "../RegistrationModal";
+import LoginModal from "../LoginModal";
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
@@ -14,9 +16,29 @@ const facebookProvider = new firebase.auth.FacebookAuthProvider();
 const Login = () => {
   const styles = useStyles();
 
+  const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const [registerModalOpen, setRegisterModalOpen] = useState(false);
   const [user] = useAuthState(auth);
 
   if (!!user) return <Redirect to="/" />;
+
+  const openLoginModal = () => {
+    setLoginModalOpen(true);
+    setRegisterModalOpen(false);
+  };
+
+  const closeLoginModal = () => {
+    setLoginModalOpen(false);
+  };
+
+  const openRegisterModal = () => {
+    setRegisterModalOpen(true);
+    setLoginModalOpen(false);
+  };
+
+  const closeRegisterModal = () => {
+    setRegisterModalOpen(false);
+  };
 
   return (
     <Container className={styles.root} maxWidth="md">
@@ -50,7 +72,6 @@ const Login = () => {
       <Paper className={styles.paper}>
         <Grid container spacing={2} className={styles.loginMethodContainer}>
           <Grid item md={4} sm={6} xs={12} className="text-center">
-            {/* TODO: Dodać klawisze zgodne z providerem */}
             <LoginWithButton
               authProvider={googleProvider}
               iconClassName="fa-google"
@@ -67,7 +88,19 @@ const Login = () => {
             </LoginWithButton>
           </Grid>
           <Grid item md={4} sm={6} xs={12} className="text-center">
-            LOGIN W EMAIL
+            <Button onClick={openLoginModal} variant="contained">
+              Zaloguj
+            </Button>
+            <RegistrationModal
+              open={registerModalOpen}
+              handleClose={closeRegisterModal}
+              openLoginModal={openLoginModal}
+            />
+            <LoginModal
+              open={loginModalOpen}
+              handleClose={closeLoginModal}
+              openRegisterModal={openRegisterModal}
+            />
           </Grid>
         </Grid>
       </Paper>

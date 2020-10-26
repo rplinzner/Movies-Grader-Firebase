@@ -21,7 +21,7 @@ export default () => {
     <div className={classes.root}>
       <AppBar position="static">
         <Toolbar>
-          <Hidden xsDown={!!user} >
+          <Hidden xsDown={!!user}>
             <Typography variant="h6" className={user ? "" : classes.root}>
               Movies Grader
             </Typography>
@@ -45,7 +45,9 @@ export default () => {
                 <Hidden xsDown>
                   <Typography variant="body2">Zalogowany jako:</Typography>
                 </Hidden>
-                <Typography variant="body1">{user?.displayName}</Typography>
+                <Typography variant="body1">
+                  {user?.displayName || user?.email}
+                </Typography>
               </div>
             </>
           )}
