@@ -18,7 +18,7 @@ export default () => {
   const logout = () => auth.signOut();
 
   return (
-    <div className={classes.root}>
+    <div id="app-bar" className={classes.root}>
       <AppBar position="static">
         <Toolbar>
           <Hidden xsDown={!!user}>

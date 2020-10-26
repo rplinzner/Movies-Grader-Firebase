@@ -33,8 +33,6 @@ const Grades = () => {
 
   const [movieId, setMovieId] = useState(100);
 
-  const topDivRef = useRef<HTMLDivElement | null>(null);
-
   useEffect(() => {
     async function inner() {
       if (!baseUrl) return;
@@ -50,8 +48,9 @@ const Grades = () => {
       setOverview(desc);
       setDirectors(dirs.map((e) => e.name));
       setTitle(`${movieTitle} (${releaseDate})`);
-      if (topDivRef.current)
-        topDivRef.current.scrollIntoView({ behavior: "smooth" });
+      // Scroll to top on new data
+      document.querySelector("#app-bar")?.scrollIntoView({ behavior: "smooth" });
+
       setTimeout(() => {
         setFadeIn(true);
       }, 200);
@@ -65,7 +64,7 @@ const Grades = () => {
       {title ? (
         <Fade in={fadeIn}>
           <Container maxWidth="md" className={classes.root}>
-            <div ref={topDivRef} className={classes.posterContainer}>
+            <div className={classes.posterContainer}>
               <img
                 className={classNames(classes.poster, "shadow")}
                 src={posterUrl}
