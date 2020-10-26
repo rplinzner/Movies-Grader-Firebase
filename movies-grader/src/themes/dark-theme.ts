@@ -3,14 +3,15 @@ import {
   responsiveFontSizes,
   ThemeOptions,
 } from "@material-ui/core";
-import { blue } from "@material-ui/core/colors";
+import { cyan, lime } from "@material-ui/core/colors";
 
 export default responsiveFontSizes(
   createMuiTheme({
     direction: "ltr",
     palette: {
       type: "dark",
-      primary: blue
+      primary: cyan,
+      secondary: lime,
     },
   } as ThemeOptions)
 );
