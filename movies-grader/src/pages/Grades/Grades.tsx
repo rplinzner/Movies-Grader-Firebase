@@ -42,11 +42,12 @@ const Grades = () => {
         overview: desc,
         poster,
         title: movieTitle,
+        releaseDate,
       } = await fetchMovieInfo(baseUrl, movieId);
       setPosterUrl(poster);
       setOverview(desc);
       setDirectors(dirs.map((e) => e.name));
-      setTitle(movieTitle);
+      setTitle(`${movieTitle} (${releaseDate})`);
 
       setTimeout(() => {
         setFadeIn(true);

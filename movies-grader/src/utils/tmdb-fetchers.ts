@@ -20,6 +20,7 @@ export const fetchMovieInfo = async (baseUrl: string, movieId: number) => {
     credits,
     overview,
     title,
+    release_date,
   } = (await response.json()) as TmdbResponse;
 
   return {
@@ -29,5 +30,6 @@ export const fetchMovieInfo = async (baseUrl: string, movieId: number) => {
     ),
     overview,
     title,
+    releaseDate: new Date(release_date).getFullYear(),
   };
 };
