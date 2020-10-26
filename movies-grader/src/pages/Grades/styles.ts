@@ -16,6 +16,7 @@ export default makeStyles((theme: Theme) =>
       [theme.breakpoints.up("sm")]: {
         height: "55%",
       },
+      minHeight: "150px",
       marginTop: theme.spacing(2),
       flexShrink: 2,
     },
