@@ -85,9 +85,9 @@ const Grades = () => {
     setCurrentMovie(lastMovie);
   };
 
-  if (isLoaded.current && !currentMovie)
+  if (isLoaded.current && movies.length === 0)
     return (
-      <Container maxWidth="md" className={classNames(classes.root, 'mt-3')}>
+      <Container maxWidth="md" className={classNames(classes.root, "mt-3")}>
         <Typography className={classes.title} variant="h4">
           To wszystko na teraz! Wróć później.
         </Typography>
