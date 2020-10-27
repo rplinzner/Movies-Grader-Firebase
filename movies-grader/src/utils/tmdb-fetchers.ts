@@ -6,9 +6,9 @@ export const fetchConfiguration = async () => {
   const url = `https://api.themoviedb.org/3/configuration?api_key=${tmdbApiKey}`;
   const response = await fetch(url);
   const {
-    images: { base_url },
+    images: { secure_base_url },
   } = (await response.json()) as TmdbConfiguration;
-  return base_url;
+  return secure_base_url;
 };
 
 export const fetchMovieInfo = async (baseUrl: string, movieId: number) => {
