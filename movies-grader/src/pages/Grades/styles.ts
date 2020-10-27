@@ -19,6 +19,9 @@ export default makeStyles((theme: Theme) =>
       minHeight: "150px",
       marginTop: theme.spacing(2),
       flexShrink: 2,
+      width: "100%",
+      display: "flex",
+      justifyContent: "center",
     },
     poster: {
       borderRadius: 5,

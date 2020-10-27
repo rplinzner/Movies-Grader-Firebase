@@ -58,6 +58,8 @@ const Grades = () => {
       setOverview(desc);
       setDirectors(dirs.map((e) => e.name));
       setTitle(`${movieTitle} (${releaseDate})`);
+      // Scroll to top on new data
+      document.querySelector("#app-bar")?.scrollIntoView({ behavior: "smooth" });
 
       setTimeout(() => {
         setFadeIn(true);
