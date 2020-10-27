@@ -95,7 +95,7 @@ const Grades = () => {
     );
 
   return (
-    <Container>
+    <>
       {title ? (
         <Fade in={fadeIn}>
           <Container maxWidth="md" className={classes.root}>
@@ -144,7 +144,7 @@ const Grades = () => {
           <CircularProgress className="mx-auto" />
         </div>
       )}
-    </Container>
+    </>
   );
 };
 
