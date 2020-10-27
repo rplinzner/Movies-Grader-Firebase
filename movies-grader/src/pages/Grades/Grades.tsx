@@ -7,7 +7,7 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import useStyles from "./styles";
 import classNames from "classnames";
 import Rating from "react-rating";
@@ -30,6 +30,8 @@ const Grades = () => {
   const [movies, setMovies] = useState<Movie[]>([]);
   const [currentMovie, setCurrentMovie] = useState<Movie>();
 
+  const isLoaded = useRef(false);
+
   useEffect(() => {
     setFadeIn(true);
     async function inner() {
@@ -37,6 +39,7 @@ const Grades = () => {
       const lastMovie = userMovies.pop();
       setMovies(userMovies);
       setCurrentMovie(lastMovie);
+      isLoaded.current = true;
     }
     inner();
   }, []);
@@ -59,7 +62,9 @@ const Grades = () => {
       setDirectors(dirs.map((e) => e.name));
       setTitle(`${movieTitle} (${releaseDate})`);
       // Scroll to top on new data
-      document.querySelector("#app-bar")?.scrollIntoView({ behavior: "smooth" });
+      document
+        .querySelector("#app-bar")
+        ?.scrollIntoView({ behavior: "smooth" });
 
       setTimeout(() => {
         setFadeIn(true);
@@ -80,8 +85,17 @@ const Grades = () => {
     setCurrentMovie(lastMovie);
   };
 
+  if (isLoaded.current && !currentMovie)
+    return (
+      <Container maxWidth="md" className={classNames(classes.root, 'mt-3')}>
+        <Typography className={classes.title} variant="h4">
+          To wszystko na teraz! Wróć później.
+        </Typography>
+      </Container>
+    );
+
   return (
-    <>
+    <Container>
       {title ? (
         <Fade in={fadeIn}>
           <Container maxWidth="md" className={classes.root}>
@@ -130,7 +144,7 @@ const Grades = () => {
           <CircularProgress className="mx-auto" />
         </div>
       )}
-    </>
+    </Container>
   );
 };
 
