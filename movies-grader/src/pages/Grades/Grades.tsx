@@ -29,8 +29,7 @@ const Grades = () => {
   const [title, setTitle] = useState("");
   const [movies, setMovies] = useState<Movie[]>([]);
   const [currentMovie, setCurrentMovie] = useState<Movie>();
-
-  const isLoaded = useRef(false);
+  const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setFadeIn(true);
@@ -39,7 +38,7 @@ const Grades = () => {
       const lastMovie = userMovies.pop();
       setMovies(userMovies);
       setCurrentMovie(lastMovie);
-      isLoaded.current = true;
+      setIsLoaded(true);
     }
     inner();
   }, []);
@@ -85,7 +84,7 @@ const Grades = () => {
     setCurrentMovie(lastMovie);
   };
 
-  if (isLoaded.current && movies.length === 0)
+  if (isLoaded && !currentMovie)
     return (
       <Container maxWidth="md" className={classNames(classes.root, "mt-3")}>
         <Typography className={classes.title} variant="h4">
