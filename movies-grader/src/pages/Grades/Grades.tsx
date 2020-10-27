@@ -13,29 +13,39 @@ import classNames from "classnames";
 import Rating from "react-rating";
 import { useTmdbConfig } from "../../contexts/TmdbConfigContext";
 import { fetchMovieInfo } from "../../utils/tmdb-fetchers";
+import {
+  getUserMovies,
+  rateUserMovie,
+  Movie,
+} from "../../utils/firebase-db-methods";
 
 const Grades = () => {
   const classes = useStyles();
-
-  const onRankClick = (value: number) => window.alert(value);
 
   const [fadeIn, setFadeIn] = useState(false);
   const [overview, setOverview] = useState("");
   const [posterUrl, setPosterUrl] = useState("");
   const [directors, setDirectors] = useState<string[]>([]);
   const [title, setTitle] = useState("");
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [currentMovie, setCurrentMovie] = useState<Movie>();
 
   useEffect(() => {
     setFadeIn(true);
+    async function inner() {
+      const userMovies = await getUserMovies();
+      const lastMovie = userMovies.pop();
+      setMovies(userMovies);
+      setCurrentMovie(lastMovie);
+    }
+    inner();
   }, []);
 
   const { baseUrl } = useTmdbConfig();
 
-  const [movieId, setMovieId] = useState(100);
-
   useEffect(() => {
     async function inner() {
-      if (!baseUrl) return;
+      if (!baseUrl || !currentMovie) return;
 
       const {
         directors: dirs,
@@ -43,7 +53,7 @@ const Grades = () => {
         poster,
         title: movieTitle,
         releaseDate,
-      } = await fetchMovieInfo(baseUrl, movieId);
+      } = await fetchMovieInfo(baseUrl, parseInt(currentMovie.tmdb_id));
       setPosterUrl(poster);
       setOverview(desc);
       setDirectors(dirs.map((e) => e.name));
@@ -55,7 +65,18 @@ const Grades = () => {
     }
     setFadeIn(false);
     setTimeout(() => inner(), 200);
-  }, [baseUrl, movieId]);
+  }, [baseUrl, currentMovie]);
+
+  const onRankClick = (value: number) => rateMovie(value, true);
+
+  const rateMovie = async (rate: number, haveSeen: boolean) => {
+    if (!currentMovie) {
+      return;
+    }
+    await rateUserMovie(currentMovie, rate, haveSeen);
+    const lastMovie = movies.pop();
+    setCurrentMovie(lastMovie);
+  };
 
   return (
     <>
@@ -92,9 +113,8 @@ const Grades = () => {
                   onClick={onRankClick}
                 />
               </div>
-              {/* TODO: replace with proper logic */}
               <Button
-                onClick={() => setMovieId((prev) => prev + 1)}
+                onClick={() => rateMovie(0, false)}
                 className={classes.button}
                 variant="contained"
               >
