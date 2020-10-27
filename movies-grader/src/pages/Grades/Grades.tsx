@@ -122,8 +122,8 @@ const Grades = () => {
                 <Typography>Oceń:</Typography>
                 <Rating
                   className={classes.rating}
-                  emptySymbol="fa fa-star-o fa-2x"
-                  fullSymbol="fa fa-star fa-2x"
+                  emptySymbol="fa fa-star-o fa-2x mx-2"
+                  fullSymbol="fa fa-star fa-2x mx-2"
                   initialRating={0}
                   stop={6}
                   onClick={onRankClick}

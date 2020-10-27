@@ -55,7 +55,7 @@ export default makeStyles((theme: Theme) =>
       marginLeft: theme.spacing(1),
     },
     button: {
-      marginTop: theme.spacing(1),
+      marginTop: theme.spacing(3),
     },
   })
 );
