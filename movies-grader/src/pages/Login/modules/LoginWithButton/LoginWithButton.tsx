@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import firebase from "firebase";
 import { Button, Icon, Snackbar } from "@material-ui/core";
-import { auth } from "../../../App";
-import resolveErrCode from "../../../utils/firebase-error-message-resolver";
+import { auth } from "../../../../App";
+import resolveErrCode from "../../../../utils/firebase-error-message-resolver";
 import { Alert } from "@material-ui/lab";
 
 interface Props {
