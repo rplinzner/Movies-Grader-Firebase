@@ -53,13 +53,16 @@ const Login = () => {
         </Grid>
         <Grid item sm={12} md={6}>
           <Paper className={styles.paper}>
-            <Typography variant="h5" className="">
+            <Typography variant="h6" className="">
               Witaj! W ramach tej aplikacji poprosimy Cię o ocenę paru filmów.
               Najpierw jednak chcielibyśmy wiedzieć, że jesteś człowiekiem
               <span role="img" aria-label="face-with-sweat">
                 😅
               </span>
               .
+              <br />
+              Zapiszemy również twój postęp w ocenieniu, żebyś mógł później
+              wrócić w to samo miejsce.
               <br />
               <br />
               Wybierz jedną z poniższych opcji logowania.
@@ -74,7 +77,7 @@ const Login = () => {
         </Grid>
       </Grid>
 
-      <Paper className={styles.paper}>
+      <Paper className={styles.paperLower}>
         <Grid container spacing={2} className={styles.loginMethodContainer}>
           <Grid item md={4} sm={12} xs={12} className="text-center">
             <LoginWithButton
