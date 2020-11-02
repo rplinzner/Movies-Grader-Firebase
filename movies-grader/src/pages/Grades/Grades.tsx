@@ -78,7 +78,7 @@ const Grades = () => {
     }
     setFadeIn(false);
     setTimeout(() => inner(), 200);
-  }, [baseUrl, currentMovieIndex]);
+  }, [baseUrl, currentMovieIndex, movies]);
 
   const onRankClick = (value: number) => rateMovie(value, true);
 
