@@ -47,7 +47,13 @@ export const getUserMovies = async () => {
     await createMoviesCollectionForUser(db, uid);
   }
 
-  const movies: Grade[] = JSON.parse(userDoc.get("grades"));
+  const userGradesDoc = await getData(db, "users", uid.toString());
+
+  if (!userGradesDoc) {
+    return [];
+  }
+
+  const movies: Grade[] = JSON.parse(userGradesDoc.get("grades"));
 
   return movies;
 };
