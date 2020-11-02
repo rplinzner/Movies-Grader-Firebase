@@ -82,6 +82,12 @@ const Grades = () => {
 
   const onRankClick = (value: number) => rateMovie(value, true);
 
+  const getProgressPercentage = () => {
+    const divider = movies.length;
+    const dividend = movies.filter((c) => c.rated).length;
+    return dividend / divider;
+  };
+
   const rateMovie = async (rate: number, haveSeen: boolean) => {
     if (currentMovieIndex === -1) {
       return;
