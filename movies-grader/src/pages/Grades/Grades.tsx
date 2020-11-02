@@ -15,8 +15,8 @@ import { useTmdbConfig } from "../../contexts/TmdbConfigContext";
 import { fetchMovieInfo } from "../../utils/tmdb-fetchers";
 import {
   getUserMovies,
-  rateUserMovie,
-  Movie,
+  updateGrades,
+  Grade,
 } from "../../utils/firebase-db-methods";
 
 const Grades = () => {
@@ -27,17 +27,21 @@ const Grades = () => {
   const [posterUrl, setPosterUrl] = useState("");
   const [directors, setDirectors] = useState<string[]>([]);
   const [title, setTitle] = useState("");
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [currentMovie, setCurrentMovie] = useState<Movie>();
+  const [movies, setMovies] = useState<Grade[]>([]);
+  const [currentMovieIndex, setCurrentMovieIndex] = useState<number>(-1);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     setFadeIn(true);
     async function inner() {
       const userMovies = await getUserMovies();
-      const lastMovie = userMovies.pop();
       setMovies(userMovies);
-      setCurrentMovie(lastMovie);
+      console.log(userMovies);
+
+      const index = userMovies.findIndex((c) => c.rated === false);
+      console.log(index);
+
+      setCurrentMovieIndex(index);
       setIsLoaded(true);
     }
     inner();
@@ -47,8 +51,9 @@ const Grades = () => {
 
   useEffect(() => {
     async function inner() {
-      if (!baseUrl || !currentMovie) return;
+      if (!baseUrl || currentMovieIndex === -1) return;
 
+      const currentMovie = movies[currentMovieIndex];
       const {
         directors: dirs,
         overview: desc,
@@ -71,20 +76,29 @@ const Grades = () => {
     }
     setFadeIn(false);
     setTimeout(() => inner(), 200);
-  }, [baseUrl, currentMovie]);
+  }, [baseUrl, currentMovieIndex]);
 
   const onRankClick = (value: number) => rateMovie(value, true);
 
   const rateMovie = async (rate: number, haveSeen: boolean) => {
-    if (!currentMovie) {
+    if (currentMovieIndex === -1) {
       return;
     }
-    await rateUserMovie(currentMovie, rate, haveSeen);
-    const lastMovie = movies.pop();
-    setCurrentMovie(lastMovie);
+
+    movies[currentMovieIndex].rate = rate;
+    movies[currentMovieIndex].haveSeen = haveSeen;
+    movies[currentMovieIndex].rated = true;
+
+    await updateGrades(movies);
+
+    if (currentMovieIndex < movies.length - 1) {
+      setCurrentMovieIndex(currentMovieIndex + 1);
+    } else {
+      setCurrentMovieIndex(-1);
+    }
   };
 
-  if (isLoaded && !currentMovie)
+  if (isLoaded && currentMovieIndex === -1)
     return (
       <Container maxWidth="md" className={classNames(classes.root, "mt-3")}>
         <Typography className={classes.title} variant="h4">
@@ -123,7 +137,7 @@ const Grades = () => {
                   className={classes.rating}
                   emptySymbol="fa fa-star-o fa-2x mx-2"
                   fullSymbol="fa fa-star fa-2x mx-2"
-                  initialRating={0}
+                  initialRating={movies[currentMovieIndex].rate}
                   stop={6}
                   onClick={onRankClick}
                 />

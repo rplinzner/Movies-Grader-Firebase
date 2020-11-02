@@ -1,9 +1,25 @@
 import firebase from "firebase";
 
+export interface Grade {
+  id: string;
+  tmdb_id: string;
+  name: string;
+  rate: number;
+  haveSeen: boolean;
+  rated: boolean;
+}
+
 export interface Movie {
   id: string;
   tmdb_id: string;
   name: string;
+}
+
+const shuffle = (array: any[]) => {
+  for (let i = array.length - 1; i > 0; i--) {
+    let j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
 }
 
 const getData = async (db: firebase.firestore.Firestore, collection: string, doc: string) => {
@@ -15,31 +31,51 @@ const getData = async (db: firebase.firestore.Firestore, collection: string, doc
   return doc_ref;
 };
 
-const getSubcollection = async (db: firebase.firestore.Firestore, collection: string, doc: string, subCollection: string) => {
-  return await db.collection(collection).doc(doc).collection(subCollection).get()
-};
-
 export const getUserMovies = async () => {
   const db = firebase.firestore();
-  const movies_doc = await getData(db, "movies", "movies_data");
-  if (!movies_doc) {
-    return [];
-  }
-
-  const movies: Movie[] = JSON.parse(movies_doc.get("data"));
   const uid = firebase.auth().currentUser?.uid;
   if (!uid) {
     return [];
   }
 
-  const grades_ref = await getSubcollection(db, "users", uid, "grades");
-  const grades = grades_ref.docs.map(c => c.id);
-  const leftMovies = movies.filter(c => !grades.includes(c.id));
+  const userDoc = await getData(db, "users", uid.toString());
+  if (!userDoc) {
+    return [];
+  }
 
-  return leftMovies;
+  if (!userDoc?.get("grades")) {
+    await createMoviesCollectionForUser(db, uid);
+  }
+
+  const movies: Grade[] = JSON.parse(userDoc.get("grades"));
+
+  return movies;
 };
 
-export const rateUserMovie = async (movie: Movie, rate: number, haveSeen: boolean) => {
+export const createMoviesCollectionForUser = async (db: firebase.firestore.Firestore, uid: string) => {
+  const movies_doc = await getData(db, "movies", "movies_data");
+
+  if (!movies_doc) {
+    return [];
+  }
+
+  const movies: Movie[] = JSON.parse(movies_doc.get("data"));
+
+  shuffle(movies);
+
+  const grades: Grade[] = movies.map(c => ({
+    id: c.id,
+    tmdb_id: c.tmdb_id,
+    name: c.name,
+    rate: 0,
+    haveSeen: true,
+    rated: false
+  }));
+
+  await db.collection("users").doc(uid).set({ grades: JSON.stringify(grades) });
+}
+
+export const updateGrades = async (grades: Grade[]) => {
   const db = firebase.firestore();
   const uid = firebase.auth().currentUser?.uid;
 
@@ -47,11 +83,5 @@ export const rateUserMovie = async (movie: Movie, rate: number, haveSeen: boolea
     return;
   }
 
-  db.collection("users").doc(uid).collection("grades").doc(movie.id).set({
-    id: movie.id,
-    tmdb_id: movie.id,
-    name: movie.name,
-    rate,
-    haveSeen
-  });
+  await db.collection("users").doc(uid).set({ grades: JSON.stringify(grades) });
 }
