@@ -39,12 +39,9 @@ export const getUserMovies = async () => {
   }
 
   const userDoc = await getData(db, "users", uid.toString());
-  if (!userDoc) {
-    return [];
-  }
-
-  if (!userDoc?.get("grades")) {
+  if (!userDoc || !userDoc?.get("grades")) {
     await createMoviesCollectionForUser(db, uid);
+
   }
 
   const userGradesDoc = await getData(db, "users", uid.toString());
