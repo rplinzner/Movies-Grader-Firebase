@@ -1,5 +1,6 @@
 import {
   Button,
+  IconButton,
   CircularProgress,
   Container,
   Divider,
@@ -7,6 +8,8 @@ import {
   Paper,
   Typography,
 } from "@material-ui/core";
+import { ChevronLeft, ChevronRight } from "@material-ui/icons";
+
 import React, { useEffect, useState } from "react";
 import useStyles from "./styles";
 import classNames from "classnames";
@@ -29,6 +32,7 @@ const Grades = () => {
   const [title, setTitle] = useState("");
   const [movies, setMovies] = useState<Grade[]>([]);
   const [currentMovieIndex, setCurrentMovieIndex] = useState<number>(-1);
+  const [lastRatedIndex, setLastRatedIndex] = useState<number>(-1);
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
@@ -36,11 +40,9 @@ const Grades = () => {
     async function inner() {
       const userMovies = await getUserMovies();
       setMovies(userMovies);
-      console.log(userMovies);
 
       const index = userMovies.findIndex((c) => c.rated === false);
-      console.log(index);
-
+      setLastRatedIndex(index);
       setCurrentMovieIndex(index);
       setIsLoaded(true);
     }
@@ -93,6 +95,7 @@ const Grades = () => {
 
     if (currentMovieIndex < movies.length - 1) {
       setCurrentMovieIndex(currentMovieIndex + 1);
+      setLastRatedIndex(currentMovieIndex + 1);
     } else {
       setCurrentMovieIndex(-1);
     }
@@ -149,6 +152,22 @@ const Grades = () => {
               >
                 Nie widziałem/am filmu
               </Button>
+              {currentMovieIndex > 0 && (
+                <IconButton
+                  aria-label="left"
+                  onClick={() => setCurrentMovieIndex(currentMovieIndex - 1)}
+                >
+                  <ChevronLeft />
+                </IconButton>
+              )}
+              {currentMovieIndex < lastRatedIndex && (
+                <IconButton
+                  aria-label="right"
+                  onClick={() => setCurrentMovieIndex(currentMovieIndex + 1)}
+                >
+                  <ChevronRight />
+                </IconButton>
+              )}
             </Paper>
           </Container>
         </Fade>
