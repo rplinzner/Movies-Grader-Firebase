@@ -73,8 +73,8 @@ const RegistrationModal = (props: Props) => {
             inputRef={register({
               required: "Pole jest wymagane.",
               minLength: {
-                value: 5,
-                message: "Minimalna długość hasła - 5 znaków.",
+                value: 6,
+                message: "Minimalna długość hasła - 6 znaków.",
               },
             })}
             label="Hasło"
