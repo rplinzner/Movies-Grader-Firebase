@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { Button, Icon, Snackbar } from "@material-ui/core";
 import { auth } from "../../../../App";
 import resolveErrCode from "../../../../utils/firebase-error-message-resolver";

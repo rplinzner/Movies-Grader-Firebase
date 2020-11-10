@@ -1,4 +1,6 @@
-import firebase from "firebase";
+import firebase from "firebase/app";
+import "firebase/auth";
+import "firebase/firestore";
 
 export interface Grade {
   id: string;
@@ -20,10 +22,14 @@ const shuffle = (array: any[]) => {
     let j = Math.floor(Math.random() * (i + 1));
     [array[i], array[j]] = [array[j], array[i]];
   }
-}
+};
 
-const getData = async (db: firebase.firestore.Firestore, collection: string, doc: string) => {
-  const doc_ref = await db.collection(collection).doc(doc).get()
+const getData = async (
+  db: firebase.firestore.Firestore,
+  collection: string,
+  doc: string
+) => {
+  const doc_ref = await db.collection(collection).doc(doc).get();
   if (!doc_ref.exists) {
     return null;
   }
@@ -41,7 +47,6 @@ export const getUserMovies = async () => {
   const userDoc = await getData(db, "users", uid.toString());
   if (!userDoc || !userDoc?.get("grades")) {
     await createMoviesCollectionForUser(db, uid);
-
   }
 
   const userGradesDoc = await getData(db, "users", uid.toString());
@@ -55,7 +60,10 @@ export const getUserMovies = async () => {
   return movies;
 };
 
-export const createMoviesCollectionForUser = async (db: firebase.firestore.Firestore, uid: string) => {
+export const createMoviesCollectionForUser = async (
+  db: firebase.firestore.Firestore,
+  uid: string
+) => {
   const movies_doc = await getData(db, "movies", "movies_data");
 
   if (!movies_doc) {
@@ -66,17 +74,20 @@ export const createMoviesCollectionForUser = async (db: firebase.firestore.Fires
 
   shuffle(movies);
 
-  const grades: Grade[] = movies.map(c => ({
+  const grades: Grade[] = movies.map((c) => ({
     id: c.id,
     tmdb_id: c.tmdb_id,
     name: c.name,
     rate: 0,
     haveSeen: true,
-    rated: false
+    rated: false,
   }));
 
-  await db.collection("users").doc(uid).set({ grades: JSON.stringify(grades) });
-}
+  await db
+    .collection("users")
+    .doc(uid)
+    .set({ grades: JSON.stringify(grades) });
+};
 
 export const updateGrades = async (grades: Grade[]) => {
   const db = firebase.firestore();
@@ -86,5 +97,8 @@ export const updateGrades = async (grades: Grade[]) => {
     return;
   }
 
-  await db.collection("users").doc(uid).set({ grades: JSON.stringify(grades) });
-}
+  await db
+    .collection("users")
+    .doc(uid)
+    .set({ grades: JSON.stringify(grades) });
+};

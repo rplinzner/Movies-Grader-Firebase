@@ -120,10 +120,6 @@ const Grades = () => {
       </Container>
     );
 
-  console.log(movies[currentMovieIndex]?.rate);
-  console.log(movies[currentMovieIndex]?.haveSeen);
-  console.log(movies[currentMovieIndex]?.rated);
-
   return (
     <>
       <Box display="flex" alignItems="center" mt={1}>
@@ -135,7 +131,7 @@ const Grades = () => {
         </Box>
         <Box minWidth={50}>
           <Typography variant="body2" color="textSecondary">
-            {`Oceniono: ${Math.round(
+            {`Oceniono ${Math.round(
               getProgressPercentage()
             )}% (${ratedMoviesCount}/${allMoviesCount}) filmów`}
           </Typography>

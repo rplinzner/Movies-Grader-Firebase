@@ -9,7 +9,7 @@ import {
 
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import useStyles from "./styles";
 
 interface Props {

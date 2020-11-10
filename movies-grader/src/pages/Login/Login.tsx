@@ -9,11 +9,13 @@ import {
 import React, { useState } from "react";
 import useStyles from "./styles";
 import popcorn from "../../assets/img/popcorn.png";
-import firebase from "firebase";
+import firebase from "firebase/app";
 import { LoginWithButton, RegistrationModal, LoginModal } from "./modules";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "../../App";
 import { Redirect } from "react-router";
+
+import "firebase/auth";
 
 const googleProvider = new firebase.auth.GoogleAuthProvider();
 const facebookProvider = new firebase.auth.FacebookAuthProvider();
