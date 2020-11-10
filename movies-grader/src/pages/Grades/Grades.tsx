@@ -7,10 +7,12 @@ import {
   Fade,
   Paper,
   Typography,
+  Box,
+  LinearProgress,
 } from "@material-ui/core";
 import { ChevronLeft, ChevronRight } from "@material-ui/icons";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import useStyles from "./styles";
 import classNames from "classnames";
 import Rating from "react-rating";
@@ -82,10 +84,15 @@ const Grades = () => {
 
   const onRankClick = (value: number) => rateMovie(value, true);
 
+  const allMoviesCount = useMemo(() => movies.length, [movies.length]);
+  const ratedMoviesCount = useMemo(() => movies.filter((c) => c.rated).length, [
+    movies.filter((c) => c.rated),
+  ]);
+
   const getProgressPercentage = () => {
-    const divider = movies.length;
-    const dividend = movies.filter((c) => c.rated).length;
-    return dividend / divider;
+    const divider = allMoviesCount;
+    const dividend = ratedMoviesCount;
+    return (dividend / divider) * 100;
   };
 
   const rateMovie = async (rate: number, haveSeen: boolean) => {
@@ -118,6 +125,21 @@ const Grades = () => {
 
   return (
     <>
+      <Box display="flex" alignItems="center" mt={1}>
+        <Box width="100%" mr={1}>
+          <LinearProgress
+            variant="determinate"
+            value={getProgressPercentage()}
+          />
+        </Box>
+        <Box minWidth={50}>
+          <Typography variant="body2" color="textSecondary">
+            {`Oceniono: ${Math.round(
+              getProgressPercentage()
+            )}% (${ratedMoviesCount}/${allMoviesCount}) filmów`}
+          </Typography>
+        </Box>
+      </Box>
       {title ? (
         <Fade in={fadeIn}>
           <Container maxWidth="md" className={classes.root}>
