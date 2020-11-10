@@ -105,7 +105,9 @@ const Grades = () => {
 
     if (currentMovieIndex < movies.length - 1) {
       setCurrentMovieIndex(currentMovieIndex + 1);
-      setLastRatedIndex(currentMovieIndex + 1);
+      if (lastRatedIndex < currentMovieIndex + 1) {
+        setLastRatedIndex(currentMovieIndex + 1);
+      }
     } else {
       setCurrentMovieIndex(-1);
     }
