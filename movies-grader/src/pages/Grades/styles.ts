@@ -47,15 +47,42 @@ export default makeStyles((theme: Theme) =>
       marginTop: theme.spacing(3),
     },
     ratingContainer: {
-      marginTop: theme.spacing(2),
+      marginTop: theme.spacing(1),
       display: "flex",
       alignItems: "center",
+      flexWrap: "wrap",
+    },
+    rateText: {
+      [theme.breakpoints.down("xs")]: {
+        textAlign: "center",
+        width: "100%",
+      },
+    },
+    ratedText: {
+      textAlign: "center",
+      width: "100%",
+      fontWeight: "bold",
+      marginTop: theme.spacing(1),
     },
     rating: {
       marginLeft: theme.spacing(1),
+      [theme.breakpoints.down("xs")]: {
+        marginLeft: "auto",
+        marginRight: "auto",
+        marginTop: theme.spacing(1),
+      },
     },
     button: {
       marginTop: theme.spacing(3),
+    },
+    navButtonsContainer: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyItems: "center",
+      alignItems: "center",
+    },
+    navButton: {
+      margin: theme.spacing(1),
     },
   })
 );

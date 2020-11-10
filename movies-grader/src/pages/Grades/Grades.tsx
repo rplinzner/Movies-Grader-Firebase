@@ -84,10 +84,8 @@ const Grades = () => {
 
   const onRankClick = (value: number) => rateMovie(value, true);
 
-  const allMoviesCount = useMemo(() => movies.length, [movies.length]);
-  const ratedMoviesCount = useMemo(() => movies.filter((c) => c.rated).length, [
-    movies.filter((c) => c.rated),
-  ]);
+  const allMoviesCount = useMemo(() => movies.length, [movies]);
+  const ratedMoviesCount = movies.filter((c) => c.rated).length;
 
   const getProgressPercentage = () => {
     const divider = allMoviesCount;
@@ -122,6 +120,10 @@ const Grades = () => {
         </Typography>
       </Container>
     );
+
+  console.log(movies[currentMovieIndex]?.rate);
+  console.log(movies[currentMovieIndex]?.haveSeen);
+  console.log(movies[currentMovieIndex]?.rated);
 
   return (
     <>
@@ -162,8 +164,18 @@ const Grades = () => {
                 {overview}
               </Typography>
               <Divider flexItem orientation="horizontal" />
+              {movies[currentMovieIndex]?.rated && (
+                <Typography className={classes.ratedText}>{`Aktualna ocena: ${
+                  movies[currentMovieIndex]?.haveSeen === false
+                    ? "Nie widziałem/am"
+                    : movies[currentMovieIndex]?.rate
+                }`}</Typography>
+              )}
               <div className={classes.ratingContainer}>
-                <Typography>Oceń:</Typography>
+                <Typography className={classes.rateText}>{`${
+                  movies[currentMovieIndex]?.rated ? "Zmień ocenę" : "Oceń"
+                }:`}</Typography>
+
                 <Rating
                   className={classes.rating}
                   emptySymbol="fa fa-star-o fa-2x mx-2"
@@ -180,22 +192,33 @@ const Grades = () => {
               >
                 Nie widziałem/am filmu
               </Button>
-              {currentMovieIndex > 0 && (
-                <IconButton
-                  aria-label="left"
-                  onClick={() => setCurrentMovieIndex(currentMovieIndex - 1)}
-                >
-                  <ChevronLeft />
-                </IconButton>
-              )}
-              {currentMovieIndex < lastRatedIndex && (
-                <IconButton
-                  aria-label="right"
-                  onClick={() => setCurrentMovieIndex(currentMovieIndex + 1)}
-                >
-                  <ChevronRight />
-                </IconButton>
-              )}
+              <div className={classes.navButtonsContainer}>
+                {currentMovieIndex > 0 && (
+                  <Button
+                    aria-label="left"
+                    onClick={() => setCurrentMovieIndex(currentMovieIndex - 1)}
+                    startIcon={<ChevronLeft />}
+                    variant="contained"
+                    color="secondary"
+                    className={classes.navButton}
+                  >
+                    Wstecz
+                  </Button>
+                )}
+
+                {currentMovieIndex < lastRatedIndex && (
+                  <Button
+                    aria-label="right"
+                    startIcon={<ChevronRight />}
+                    variant="contained"
+                    onClick={() => setCurrentMovieIndex(currentMovieIndex + 1)}
+                    color="secondary"
+                    className={classes.navButton}
+                  >
+                    Następny
+                  </Button>
+                )}
+              </div>
             </Paper>
           </Container>
         </Fade>
